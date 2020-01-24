@@ -1,0 +1,9 @@
+version: "3"
+services:
+  slackbot:
+    build:
+      context: ..
+    container_name: slackbot
+    ports:
+      - "8000:8000"
+    tty: true
