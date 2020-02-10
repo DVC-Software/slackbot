@@ -1,10 +1,10 @@
 import slack
 import requests
 import json
+import os
 
 # TODO load this from .env docker file
-TOKEN = 'xoxb-913183984741-919889438597-v83tx77bZDMRt9O9pgSalzep'
-client = slack.WebClient(token=TOKEN)
+client = slack.WebClient(os.environ['VERIFICATION_TOKEN'])
 DEV_ENDPOINT = 'http://localhost:8000'
 HEADERS = {'Content-Type': 'application/json'}
 
