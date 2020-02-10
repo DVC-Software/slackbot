@@ -2,26 +2,21 @@
 # Dockerfile References: https://docs.docker.com/engine/reference/builder/
 
 # Start from the latest golang base image
-FROM golang:latest
+FROM python:3.7-slim 
 
-# Set the Current Working Directory inside the container
-WORKDIR /app
-
-# Copy go mod and sum files
-# [ORIGINAL LINE] COPY go.mod go.sum ./
-COPY go.mod ./
+COPY requirements.txt .
 
 # Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed
-RUN go mod download
+RUN pip install -r ./requirements.txt
 
 # Copy the source from the current directory to the Working Directory inside the container
-COPY ./src .
+COPY . .
 
-# Build the Go app
-RUN go build -o server.o .
+# Set the Current Working Directory inside the container
+WORKDIR /
 
 # Expose port 8000 to the outside world
 EXPOSE 8000
 
 # Command to run the executable
-CMD ["./server.o"]
+CMD python ./bot/bot.py

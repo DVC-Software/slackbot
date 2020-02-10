@@ -6,8 +6,6 @@ HOSTPORT ?= 8000
 NETWORK ?= bridge
 
 
-.PHONY: 
-
 build:
 	$(HIDE)docker build -f Dockerfile -t $(DOCKER_IMAGE) $(PWD)
 
