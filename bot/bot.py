@@ -5,7 +5,7 @@ import os
 
 # TODO load this from .env docker file
 client = slack.WebClient(os.environ['VERIFICATION_TOKEN'])
-DEV_ENDPOINT = 'http://localhost:8000'
+API_DEV_ENDPOINT = 'http://0.0.0.0:8080'
 HEADERS = {'Content-Type': 'application/json'}
 
 
@@ -26,7 +26,8 @@ class Member:
             'DiscordUserID': '',
             'CreatedFrom': '',
         }
-        return dvcMemberStruct
+        jsonData = json.dumps(dvcMemberStruct)
+        return jsonData
 
 
 def postChatMessage(message):
@@ -55,17 +56,23 @@ def getSlackUserNames():
 # Will send relevant data to create member in backend dvc api
 # also note that discord data will be left empty for now
 def sendNamesToDVC_API():
-    slackUserIDs = getSlackUserIDs()
+    #slackUserIDs = getSlackUserIDs()
     slackUserNames = getSlackUserNames()
 
-    #for id in slackUserIDs:
+    #for user_id in slackUserIDs:
     #    for name in slackUserNames:
-    #        dvcMember = Member(id, name)
-    #        memberJSON = json.dumps(dvcMember.toJSON())
-    #        apiReq = requests.post(DEV_ENDPOINT + '/member/create',
+    #        dvcMember = Member(user_id, name)
+    #       memberJSON = json.dumps(dvcMember.toJSON())
+    #        apiReq = requests.post(API_DEV_ENDPOINT + '/member/create',
     #                               data=memberJSON,
     #                               headers=HEADERS)
     #        print(apiReq.text)
+    #apiReq = requests.get(API_DEV_ENDPOINT + '/name/show')
+    jsonData = {'name': 'hennyg#'}
+    apiReq = requests.post(API_DEV_ENDPOINT + '/name/create',
+                           data=jsonData,
+                           headers=HEADERS)
+    print(apiReq.text)
     print(slackUserNames)
 
 
