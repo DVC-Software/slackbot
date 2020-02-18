@@ -88,4 +88,4 @@ if __name__ == "__main__":
         "Full DJ Packake"
     )
 
-    hireoutEvent1.sendHireoutMessage()
+    hireoutEvent1.sendHireoutSignupMessage()

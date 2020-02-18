@@ -36,8 +36,8 @@ class Hireout:
         self.hireout_created_message = []
 
 
-    def sendHireoutMessage(self):
-        self._buildMessageJSON()
+    def sendStaticHireoutMessage(self):
+        self._buildStaticMessageJSON()
         finalData = json.dumps(self.hireout_created_message, sort_keys=True, indent=4)
         SLACK_WEB_CLIENT.chat_postMessage(channel=self.channel,
                                           blocks=finalData
@@ -47,7 +47,7 @@ class Hireout:
     def djSignup(self):
         pass
 
-    def _buildMessageJSON(self):
+    def _buildStaticMessageJSON(self):
         self.hireout_created_message.append(
             jsonModels.makeNotifTitleBlock(self.hireoutTitleText)
         )
@@ -62,6 +62,49 @@ class Hireout:
         self.hireout_created_message.append(
             jsonModels.makeActionBlocks()
         )
+
+    def sendHireoutSignupMessage(self):
+        self._buildDynamicMessageJSON()
+        finalData = json.dumps(self.hireout_created_message,
+                               sort_keys=True,
+                               indent=4
+        )
+        SLACK_WEB_CLIENT.chat_postMessage(channel=self.channel,
+                                          blocks=finalData
+        )
+
+
+    def _buildDynamicMessageJSON(self):
+        self.hireout_created_message.append(
+            jsonModels.makeNotifTitleBlock(self.hireoutTitleText)
+        )
+        self.hireout_created_message.append(
+            jsonModels.makeSpacer()
+        )
+        self.hireout_created_message.append(
+            jsonModels.makeNotifBodyBlock(
+                self.theme,
+                self.when,
+                self.notes,
+                self.package,
+                self.djs
+            )
+        )
+        self.hireout_created_message.append(
+            jsonModels.makeSpacer()
+        )
+        # Sign up for dj time slots
+        self.hireout_created_message.append(
+            jsonModels.makeNotifTitleBlock("*Sign up for a time to spin!*")
+        )
+        self.hireout_created_message.append(
+            jsonModels.makeSpacer()
+        )
+        self.hireout_created_message.append(
+            jsonModels.makeSignupSection("4-6pm")
+        )
+
+
 
 class OfficeEquipmentTracker:
     def __init__(self, hireout, times):

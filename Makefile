@@ -1,4 +1,4 @@
-DOCKER_IMAGE ?= dvc-software/slackbot
+DOCKER_IMAGE ?= slackbot
 DOCKER_CONTAINER ?= slackbot
 HIDE ?= @
 PORT ?= 8000

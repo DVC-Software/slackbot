@@ -1,4 +1,5 @@
 
+
 # (1) new hireout notification
 def makeNotifTitleBlock(titleText):
     notification_title_block = {
@@ -9,6 +10,7 @@ def makeNotifTitleBlock(titleText):
             }
     }
     return notification_title_block
+
 
 def makeNotifBodyBlock(theme, time, notes, package, djs):
     notification_body_block = {
@@ -33,18 +35,20 @@ def makeNotifBodyBlock(theme, time, notes, package, djs):
     }
     return notification_body_block
 
+
 # TODO Need to hook this up to api call to golang server
-def makeEditButton():
+def makeEditButton(style="primary"):
     edit_button_block = {
                     "type": "button",
                     "text": {
                         "type": "plain_text",
                         "text": "Edit"
                     },
-                    "style": "primary",
+                    "style": style,
                     "value": "click_me_123"
     }
     return edit_button_block
+
 
 def makeActionBlocks():
     actions = {
@@ -56,6 +60,40 @@ def makeActionBlocks():
     }
     return actions
 
+
+def makeSignupSection(djSetTime=""):
+    signupArea = {
+        "type": "section",
+        "text": {
+            "type": "mrkdwn",
+            "text": "*{}*".format(djSetTime)
+        },
+        "accessory": {
+            "type": "button",
+            "text": {
+                "type": "plain_text",
+                "text": "Choose"
+            },
+            "value": "click_me_123"
+        }
+    }
+    return signupArea
+
+
+def makeSpacer():
+    divider = {
+        "type": "divider"
+    }
+    return divider
+
+
+def insertImageHorizontally(img_url):
+    image = {
+        "type": "image",
+        "image_url": img_url,
+        "alt_text": "calendar image link"
+    }
+    return image
 
 # (2) hireout dj sign up form
 

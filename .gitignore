@@ -1,2 +1,3 @@
 .env
 docker/dev-env.rc
+__pycache__/
