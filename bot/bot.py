@@ -6,7 +6,7 @@ import os
 import workspaceHandlers
 
 # TODO load this from .env docker file
-client = slack.WebClient(os.environ['VERIFICATION_TOKEN'])
+client = slack.WebClient(token=os.environ['VERIFICATION_TOKEN'])
 API_DEV_ENDPOINT = 'http://0.0.0.0:8080'
 HEADERS = {'Content-Type': 'application/json'}
 
@@ -82,10 +82,10 @@ if __name__ == "__main__":
     # sendNamesToDVC_API()
     print("Testing to see if we correctly build json messages")
     hireoutEvent1 = workspaceHandlers.Hireout(
-        "no channel yet",
+        "#slackbot-test",
         "Sungod hireout created",
         "March 15th",
         "Full DJ Packake"
     )
-    print(hireoutEvent1.sendHireoutMessage())
 
+    hireoutEvent1.sendHireoutMessage()

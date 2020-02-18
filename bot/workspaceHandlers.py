@@ -33,22 +33,25 @@ class Hireout:
         self.notes = notes
 
         # main json body that'll encapsulate the data
-        self.hireout_created_message = {
-            "blocks": [],
-        }
+        self.hireout_created_message = []
+
+
     def sendHireoutMessage(self):
         self._buildMessageJSON()
         finalData = json.dumps(self.hireout_created_message, sort_keys=True, indent=4)
-        return finalData
+        SLACK_WEB_CLIENT.chat_postMessage(channel=self.channel,
+                                          blocks=finalData
+        )
+        #return finalData
 
     def djSignup(self):
         pass
 
     def _buildMessageJSON(self):
-        self.hireout_created_message["blocks"].append(
+        self.hireout_created_message.append(
             jsonModels.makeNotifTitleBlock(self.hireoutTitleText)
         )
-        self.hireout_created_message["blocks"].append(
+        self.hireout_created_message.append(
             jsonModels.makeNotifBodyBlock(self.theme,
                                           self.when,
                                           self.notes,
@@ -56,7 +59,7 @@ class Hireout:
                                           self.djs
             )
         )
-        self.hireout_created_message["blocks"].append(
+        self.hireout_created_message.append(
             jsonModels.makeActionBlocks()
         )
 
