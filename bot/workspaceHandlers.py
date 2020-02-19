@@ -42,7 +42,6 @@ class Hireout:
         SLACK_WEB_CLIENT.chat_postMessage(channel=self.channel,
                                           blocks=finalData
         )
-        #return finalData
 
     def djSignup(self):
         pass
@@ -107,23 +106,55 @@ class Hireout:
 
 
 class OfficeEquipmentTracker:
-    def __init__(self, hireout, times):
+    '''
+    @args:
+      - Hireout reference
+      - state: list that contains
+        [at hireout, in maitnence, in office, sell it]
+        can only be in one state at a time
+        NOTE: would be better represented in an Enum... refractor later
+      - gearName: ie "Pioneer CDJ Nexus 2"...
+      - description: any other misc notes about the gear
+    '''
+    def __init__(self, hireout, state, gearName, description):
         self.hireout = hireout
-        self.times = times
+        self.state = state
+        self.gearName = gearName
+        self.description = description
+
+        # make api call to golang server to grab all current gear in office
+        self.allGear = []
+
+        # final json to send to slack
+        self.listAllGearJSON = []
+
+        # Set channel to whatever hireout it attaches itself to
+        self.channel = hireout.channel
 
     def listAllOfficeEquipment(self):
         pass
 
-    @staticmethod
-    def buildMessageJSON(self):
-        parentBlock = {
-            "blocks": [{
-                "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": "A hireout has been created!"
-                }
-            }]
-        }
+    def sendMessageJSON(self):
+        self._buildGearJSON()
+        finalData = json.dumps(self.listAllGearJSON,
+                               sort_keys=True,
+                               indent=4
+        )
+        SLACK_WEB_CLIENT.chat_postMessage(channel=self.channel,
+                                         blocks=finalData
+        )
 
-        return parentBlock
+    def _buildGearJSON(self):
+        # title
+        self.listAllGearJSON.append(
+            jsonModels.makeNotifTitleBlock("All current gear in the office")
+        )
+        self.listAllGearJSON.append(jsonModels.makeSpacer())
+
+        # Gear list with dropdown menu to change its state
+        self.listAllGearJSON.append(
+            jsonModels.makeDropDownMenu(self.gearName)
+        )
+        self.listAllGearJSON.append(jsonModels.makeSpacer())
+
+

@@ -80,7 +80,6 @@ def sendNamesToDVC_API():
 
 if __name__ == "__main__":
     # sendNamesToDVC_API()
-    print("Testing to see if we correctly build json messages")
     hireoutEvent1 = workspaceHandlers.Hireout(
         "#slackbot-test",
         "Sungod hireout created",
@@ -88,4 +87,10 @@ if __name__ == "__main__":
         "Full DJ Packake"
     )
 
-    hireoutEvent1.sendHireoutSignupMessage()
+    officeGear1 = workspaceHandlers.OfficeEquipmentTracker(
+        hireoutEvent1,
+        "In office",
+        "Pioneer CDJ Nexus 2",
+        "CDJ Player"
+    )
+    officeGear1.sendMessageJSON()
